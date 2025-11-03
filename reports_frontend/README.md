@@ -4,7 +4,24 @@ This React app provides the UI for submitting weekly reports and viewing insight
 
 ## Quick Start
 - `npm start` to run on http://localhost:3000
-- No Supabase configuration required for this scaffolding.
+
+## Supabase Setup (Google OAuth)
+1. Environment variables (create `.env` in this folder):
+   - REACT_APP_SUPABASE_URL=https://YOUR-PROJECT.supabase.co
+   - REACT_APP_SUPABASE_KEY=YOUR-ANON-PUBLIC-KEY
+   - REACT_APP_SITE_URL=http://localhost:3000
+2. Supabase Dashboard
+   - Authentication → Providers → Google: enable and add Client ID/Secret
+   - Authentication → URL Configuration:
+     - Site URL: your dev/prod URL
+     - Redirect URLs:
+       * http://localhost:3000/**
+       * https://yourapp.com/**
+3. Database
+   - Run SQL in assets/supabase.md to create `reports` table and RLS
+4. App
+   - Settings page → “Sign in with Google”
+   - Auth callback handled at `/auth/callback`
 
 ## Structure
 ```

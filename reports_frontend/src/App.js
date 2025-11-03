@@ -7,6 +7,8 @@ import MyReports from './pages/MyReports';
 import TeamReports from './pages/TeamReports';
 import Insights from './pages/Insights';
 import Settings from './pages/Settings';
+import AuthCallback from './pages/AuthCallback';
+import AuthError from './pages/AuthError';
 import { applyLightTheme } from './theme/theme';
 
 /**
@@ -19,6 +21,8 @@ import { applyLightTheme } from './theme/theme';
  *  - /team-reports
  *  - /insights
  *  - /settings
+ *  - /auth/callback
+ *  - /auth/error
  */
 function App() {
   useEffect(() => {
@@ -34,6 +38,8 @@ function App() {
         <Route path="/team-reports" element={<TeamReports />} />
         <Route path="/insights" element={<Insights />} />
         <Route path="/settings" element={<Settings />} />
+        <Route path="/auth/callback" element={<AuthCallback />} />
+        <Route path="/auth/error" element={<AuthError />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </MainLayout>
