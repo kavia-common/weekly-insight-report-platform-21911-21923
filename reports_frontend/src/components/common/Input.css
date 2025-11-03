@@ -1,0 +1,35 @@
+@import '../../theme/variables.css';
+
+.field {
+  display: grid;
+  gap: 6px;
+}
+
+.label {
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.control {
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  background: white;
+  color: var(--color-text);
+  transition: border-color .15s ease, box-shadow .2s ease;
+}
+
+.control::placeholder {
+  color: var(--color-muted);
+}
+
+.control:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 4px rgba(37,99,235,0.15);
+  outline: none;
+}
+
+.helper {
+  font-size: 12px;
+  color: var(--color-muted);
+}
