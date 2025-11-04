@@ -359,6 +359,14 @@ export const blockers = {
     return apiRequest("/blockers", { method: "GET", query: filters });
   },
 
+  /** Get a specific blocker by ID. */
+  async getBlocker(id) {
+    if (isSupabaseConfigured()) {
+      return blockersService.getBlockerById(id);
+    }
+    return apiRequest(`/blockers/${encodeURIComponent(id)}`, { method: "GET" });
+  },
+
   /** Create a blocker. */
   async createBlocker(body) {
     if (isSupabaseConfigured()) {
