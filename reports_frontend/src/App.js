@@ -15,6 +15,10 @@ import PrivateRoute from "./components/PrivateRoute";
 import { AuthProvider } from "./context/AuthContext";
 import Layout from "./components/Layout";
 import NotFound from "./pages/NotFound";
+import BlockersList from "./pages/blockers/BlockersList";
+import BlockerCreate from "./pages/blockers/BlockerCreate";
+import BlockerDetail from "./pages/blockers/BlockerDetail";
+import BlockerEdit from "./pages/blockers/BlockerEdit";
 
 // PUBLIC_INTERFACE
 function App() {
@@ -65,6 +69,12 @@ function App() {
               <Route path="/reports/:id" element={<ReportDetail />} />
               <Route path="/reports/:id/edit" element={<ReportEdit />} />
               <Route path="/dashboard" element={<Dashboard />} />
+
+              {/* Blockers */}
+              <Route path="/blockers" element={<BlockersList />} />
+              <Route path="/blockers/new" element={<BlockerCreate />} />
+              <Route path="/blockers/:id" element={<BlockerDetail />} />
+              <Route path="/blockers/:id/edit" element={<BlockerEdit />} />
 
               {/* Protected profile */}
               <Route element={<PrivateRoute />}>

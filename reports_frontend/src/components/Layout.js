@@ -50,6 +50,7 @@ export default function Layout({ children, hideChrome = false }) {
         <nav className="sidebar-nav">
           <NavItem to="/" label="Home" icon="🏠" />
           <NavItem to="/reports" label="Reports" icon="📝" />
+          <NavItem to="/blockers" label="Blockers" icon="⛔" />
           <NavItem to="/dashboard" label="Dashboard" icon="📊" />
           <NavItem to="/notifications" label="Notifications" icon="🔔" />
           <NavItem to="/profile" label="Profile" icon="👤" />

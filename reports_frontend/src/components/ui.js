@@ -217,3 +217,33 @@ export function Modal({ title, open, onClose, children, actions }) {
     </div>
   );
 }
+
+// PUBLIC_INTERFACE
+export function Toast({ type = "success", children, onClose }) {
+  /** Lightweight toast for success/error messages */
+  const color = type === "error" ? "var(--color-error)" : "var(--color-success)";
+  const bg = type === "error" ? "rgba(239,68,68,0.12)" : "rgba(245,158,11,0.12)";
+  return (
+    <div
+      role="status"
+      aria-live="polite"
+      style={{
+        position: "fixed",
+        bottom: 16,
+        right: 16,
+        zIndex: 60,
+        background: "var(--bg-surface)",
+        border: `1px solid var(--border-color)`,
+        borderLeft: `6px solid ${color}`,
+        borderRadius: 10,
+        boxShadow: "var(--shadow)",
+        padding: "12px 14px",
+        maxWidth: "min(420px, 90vw)",
+      }}
+      onClick={onClose}
+      title="Dismiss"
+    >
+      <div style={{ color }}>{children}</div>
+    </div>
+  );
+}
