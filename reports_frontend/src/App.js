@@ -4,6 +4,10 @@ import { BrowserRouter, Routes, Route, Link, NavLink } from "react-router-dom";
 import Home from "./pages/Home";
 import Dashboard from "./pages/Dashboard";
 import Reports from "./pages/Reports";
+import ReportsList from "./pages/reports/ReportsList";
+import ReportCreate from "./pages/reports/ReportCreate";
+import ReportDetail from "./pages/reports/ReportDetail";
+import ReportEdit from "./pages/reports/ReportEdit";
 
 // PUBLIC_INTERFACE
 function App() {
@@ -54,7 +58,13 @@ function App() {
         <main className="main">
           <Routes>
             <Route path="/" element={<Home />} />
+            {/* Legacy wrapper route */}
             <Route path="/reports" element={<Reports />} />
+            {/* Explicit CRUD routes */}
+            <Route path="/reports" element={<ReportsList />} />
+            <Route path="/reports/new" element={<ReportCreate />} />
+            <Route path="/reports/:id" element={<ReportDetail />} />
+            <Route path="/reports/:id/edit" element={<ReportEdit />} />
             <Route path="/dashboard" element={<Dashboard />} />
           </Routes>
         </main>

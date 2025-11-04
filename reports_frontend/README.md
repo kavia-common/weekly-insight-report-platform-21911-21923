@@ -21,3 +21,9 @@ Scripts:
 Notes:
 - All new pages should be registered via React Router in `src/App.js`.
 - API calls should use the helper in `src/api/client.js`.
+
+Reports routes:
+- /reports — list with filters/pagination
+- /reports/new — create new report
+- /reports/:id — view report details
+- /reports/:id/edit — edit report
