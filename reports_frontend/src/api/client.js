@@ -21,6 +21,10 @@
  * - Do not store secrets in code. Use environment variables.
  */
 
+import { isSupabaseConfigured } from "../lib/supabaseClient";
+import * as reportsService from "../services/reports";
+import * as blockersService from "../services/blockers";
+
 // ---------------------- Internal utilities ----------------------
 
 let authToken = null; // in-memory override; if null, falls back to localStorage
@@ -286,6 +290,7 @@ export const user = {
   },
 };
 
+ 
 // ---------------------- API: Reports ----------------------
 
 // PUBLIC_INTERFACE
@@ -295,22 +300,34 @@ export const reports = {
    * filters: { userId, status, limit/offset or page/pageSize, week, ... }
    */
   async listReports(filters = {}) {
+    if (isSupabaseConfigured()) {
+      return reportsService.listReports(filters);
+    }
     // Supports either limit/offset (from one spec) or page/pageSize (from another).
     return apiRequest("/reports", { method: "GET", query: filters });
   },
 
   /** Create a new report. body should include { content, blockers? } or schema-compliant fields. */
   async createReport(body) {
+    if (isSupabaseConfigured()) {
+      return reportsService.createReport(body);
+    }
     return apiRequest("/reports", { method: "POST", body });
   },
 
   /** Get a specific report by ID. */
   async getReport(id) {
+    if (isSupabaseConfigured()) {
+      return reportsService.getReportById(id);
+    }
     return apiRequest(`/reports/${encodeURIComponent(id)}`, { method: "GET" });
   },
 
   /** Update an existing report by ID. */
   async updateReport(id, body) {
+    if (isSupabaseConfigured()) {
+      return reportsService.updateReport(id, body);
+    }
     // Some specs define PUT, others PATCH. We'll default to PUT for full update.
     return apiRequest(`/reports/${encodeURIComponent(id)}`, {
       method: "PUT",
@@ -320,28 +337,41 @@ export const reports = {
 
   /** Delete report by ID. */
   async deleteReport(id) {
+    if (isSupabaseConfigured()) {
+      return reportsService.deleteReport(id);
+    }
     return apiRequest(`/reports/${encodeURIComponent(id)}`, {
       method: "DELETE",
     });
   },
 };
 
+ 
 // ---------------------- API: Blockers ----------------------
 
 // PUBLIC_INTERFACE
 export const blockers = {
   /** List blockers; supports filters like { status, reportId, limit/offset or page/pageSize }. */
   async listBlockers(filters = {}) {
+    if (isSupabaseConfigured()) {
+      return blockersService.listBlockers(filters);
+    }
     return apiRequest("/blockers", { method: "GET", query: filters });
   },
 
   /** Create a blocker. */
   async createBlocker(body) {
+    if (isSupabaseConfigured()) {
+      return blockersService.createBlocker(body);
+    }
     return apiRequest("/blockers", { method: "POST", body });
   },
 
   /** Update blocker by ID. */
   async updateBlocker(id, body) {
+    if (isSupabaseConfigured()) {
+      return blockersService.updateBlocker(id, body);
+    }
     // Some specs may require PUT; use PUT for full update.
     return apiRequest(`/blockers/${encodeURIComponent(id)}`, {
       method: "PUT",
@@ -351,6 +381,9 @@ export const blockers = {
 
   /** Delete blocker by ID. */
   async deleteBlocker(id) {
+    if (isSupabaseConfigured()) {
+      return blockersService.deleteBlocker(id);
+    }
     return apiRequest(`/blockers/${encodeURIComponent(id)}`, {
       method: "DELETE",
     });
