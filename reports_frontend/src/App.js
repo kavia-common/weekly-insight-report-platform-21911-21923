@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
-import { BrowserRouter, Routes, Route, Link, NavLink } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Dashboard from "./pages/Dashboard";
 import Reports from "./pages/Reports";
@@ -12,7 +12,9 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import ProfilePage from "./pages/ProfilePage";
 import PrivateRoute from "./components/PrivateRoute";
-import { AuthProvider, useAuth } from "./context/AuthContext";
+import { AuthProvider } from "./context/AuthContext";
+import Layout from "./components/Layout";
+import NotFound from "./pages/NotFound";
 
 // PUBLIC_INTERFACE
 function App() {
@@ -28,90 +30,54 @@ function App() {
     setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
   };
 
-  function AuthNav() {
-    const { token, user, logout } = useAuth();
-    if (!token) {
-      return (
-        <div className="nav-links">
-          <NavLink className="nav-link" to="/login">
-            Login
-          </NavLink>
-          <NavLink className="nav-link" to="/register">
-            Register
-          </NavLink>
-        </div>
-      );
-    }
-    return (
-      <div className="nav-links">
-        <NavLink className="nav-link" to="/profile">
-          {user?.name ? `Hi, ${user.name}` : "Profile"}
-        </NavLink>
-        <button className="theme-toggle" onClick={logout} title="Logout">
-          Logout
-        </button>
-      </div>
-    );
-  }
-
   return (
-    <div className="App">
+    <div className="App" data-theme={theme}>
       <BrowserRouter>
         <AuthProvider>
-          <nav className="navbar">
-            <div className="navbar-inner container">
-              <div className="brand">
-                <span className="brand-dot" />
-                <Link to="/" style={{ color: "inherit", textDecoration: "none" }}>
-                  DigitalT3
-                </Link>
-              </div>
-              <div className="nav-links">
-                <NavLink className="nav-link" to="/">
-                  Home
-                </NavLink>
-                <NavLink className="nav-link" to="/reports">
-                  Reports
-                </NavLink>
-                <NavLink className="nav-link" to="/dashboard">
-                  Dashboard
-                </NavLink>
-              </div>
-              <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-                <AuthNav />
-                <button
-                  className="theme-toggle"
-                  onClick={toggleTheme}
-                  aria-label={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
-                  title="Toggle theme"
-                >
-                  {theme === "light" ? "🌙 Dark" : "☀️ Light"}
-                </button>
-              </div>
-            </div>
-          </nav>
-          <main className="main">
+          {/* Auth pages without chrome */}
+          <Routes>
+            <Route
+              path="/login"
+              element={
+                <Layout hideChrome>
+                  <LoginPage />
+                </Layout>
+              }
+            />
+            <Route
+              path="/register"
+              element={
+                <Layout hideChrome>
+                  <RegisterPage />
+                </Layout>
+              }
+            />
+          </Routes>
+
+          {/* Main app wrapped in Layout */}
+          <Layout>
             <Routes>
               <Route path="/" element={<Home />} />
-              {/* Legacy wrapper route */}
+              {/* Compatibility and explicit routes */}
               <Route path="/reports" element={<Reports />} />
-              {/* Explicit CRUD routes */}
               <Route path="/reports" element={<ReportsList />} />
               <Route path="/reports/new" element={<ReportCreate />} />
               <Route path="/reports/:id" element={<ReportDetail />} />
               <Route path="/reports/:id/edit" element={<ReportEdit />} />
               <Route path="/dashboard" element={<Dashboard />} />
 
-              {/* Auth routes */}
-              <Route path="/login" element={<LoginPage />} />
-              <Route path="/register" element={<RegisterPage />} />
-
-              {/* Protected profile route */}
+              {/* Protected profile */}
               <Route element={<PrivateRoute />}>
                 <Route path="/profile" element={<ProfilePage />} />
               </Route>
+
+              {/* Notifications placeholder route (optional existence) */}
+              <Route path="/notifications" element={<div className="container"><div className="card"><h2 style={{marginTop:0}}>Notifications</h2><p>Coming soon.</p></div></div>} />
+
+              {/* Not Found */}
+              <Route path="*" element={<NotFound />} />
             </Routes>
-          </main>
+          </Layout>
         </AuthProvider>
       </BrowserRouter>
     </div>

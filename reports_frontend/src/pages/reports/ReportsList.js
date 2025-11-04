@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { reports as reportsApi } from "../../api/client";
-import { Button, Input, Select, Modal } from "../../components/ui";
+import { Button, Input, Select, Modal, Badge } from "../../components/ui";
 
 /**
  * ReportsList: lists weekly reports with basic filters and pagination.
@@ -80,6 +80,15 @@ export default function ReportsList() {
     updateParam("page", String(p));
   }
 
+  function badgeColorFor(status) {
+    if (!status) return "secondary";
+    const s = String(status).toLowerCase();
+    if (s === "draft") return "secondary";
+    if (s === "submitted" || s === "approved") return "primary";
+    if (s === "rejected") return "error";
+    return "secondary";
+  }
+
   return (
     <div className="container">
       <div className="card">
@@ -120,8 +129,10 @@ export default function ReportsList() {
                       {r.week ? `Week ${r.week}` : `Report ${r.id}`}
                     </Link>
                   </div>
-                  <div style={{ color: "var(--text-secondary)", fontSize: 13 }}>
-                    Status: {r.status || "unknown"} • Updated: {r.updatedAt || r.createdAt || "n/a"}
+                  <div style={{ color: "var(--text-secondary)", fontSize: 13, display: "flex", alignItems: "center", gap: 8 }}>
+                    <span>Status:</span>
+                    <Badge color={badgeColorFor(r.status)}>{r.status || "unknown"}</Badge>
+                    <span>• Updated: {r.updatedAt || r.createdAt || "n/a"}</span>
                   </div>
                 </div>
                 <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
