@@ -11,11 +11,22 @@
   "scripts": {
     "start": "PORT=3000 react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "cross-env CI=true react-scripts test --watchAll=false",
+    "test:watch": "react-scripts test",
+    "coverage": "cross-env CI=true react-scripts test --watchAll=false --coverage",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": "react-app"
+  },
+  "jest": {
+    "testEnvironment": "jsdom",
+    "setupFilesAfterEnv": [
+      "<rootDir>/src/setupTests.js"
+    ],
+    "moduleNameMapper": {
+      "\\\\.(css|less|scss)$": "<rootDir>/src/__mocks__/styleMock.js"
+    }
   },
   "browserslist": {
     "production": [
